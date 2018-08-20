@@ -22,7 +22,7 @@
 #  
 #  
 
-import argparse, sys
+import argparse, sys, math
 parser=argparse.ArgumentParser(description='Buld deltas .nec files.')
 parser.add_argument('-f', '--freq', help='Destination freq to build antenna in MHz', \
     required=True, type=float)
@@ -38,7 +38,30 @@ if args.freq>30:
 if args.mast>150:
     print 'How can you build such a tall mast??? Mail me, pls'
     sys.exit(1)
-print args
+
+vlight=299792458
+freq=args.freq*1000000
+lambda1=vlight/freq
+lambda4=lambda1/4
+
+top_angle=90 #this will be in args in future
+side_short=lambda4*1.24
+top_angle_rad=math.radians(top_angle)
+
+x=side_short*sin(top_angle_rad/2)
+y=0
+z=side_short*cos(top_angle_rad/2)
+
+def toFixed(numObj, digits=0):
+    return f"{numObj:.{digits}f}"
+
+x=toFixed(x,3)
+z=toFixed(z,3)
+
+point_top[3]=[0,0,z]
+point_side_left[3]=[x,0,0]
+point_side_right[3]=[-x,0,0]
+
 
 
 
