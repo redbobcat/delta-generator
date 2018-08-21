@@ -3,7 +3,7 @@
 #
 # test.py
 #  
-#  Copyright 2018 username <username@zvorikin>
+#  Copyright 2018 redbobcat <redbobcat@yandex.ru>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ parser.add_argument('-m', '--mast', help='Top point of antenna, mast hight in me
     default=6, type=float)
 parser.add_argument('-o', '--out', help='Filename to output .nec file', required=True)
 parser.add_argument('-a', '--angle', help='Top wire angle in degs', default=90, type=int)
-parser.add_argument('--shorten', help='coefficent of wire shortening', default=1.00)
+parser.add_argument('--shorten', help='Coefficent of wire shortening', default=1.00)
 args=parser.parse_args()
 
 #errors check
