@@ -23,3 +23,7 @@ def GE_line (gnd):
 
     """
     return f'GE {gnd} 0 0 0 0 0 0 0 0\n\n\n'
+
+def EX_line (tag, segment, voltage):
+    """returns EX (feed settings) line"""
+    return f'EX 0 {tag} {segment} 0 {voltage} 0 0 0 0 0'
