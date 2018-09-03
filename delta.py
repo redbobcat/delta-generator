@@ -30,7 +30,7 @@ parser.add_argument('-f', '--freq', help='Destination freq to build antenna in M
     required=True, type=float)
 parser.add_argument('-m', '--mast', help='Top point of antenna, mast hight in meters', \
     default=6, type=float)
-parser.add_argument('-o', '--out', help='Filename to output .nec file', required=True)
+parser.add_argument('-o', '--out', help='Filename to output .nec file')
 parser.add_argument('-a', '--angle', help='Top wire angle in degs', default=90, type=int)
 parser.add_argument('--shorten', help='Coefficent of wire shortening', default=1.00)
 args=parser.parse_args()
@@ -84,12 +84,30 @@ point_right[2]+=add_hight
 #feedpoint in 1/4 wavelenght, aprox 4/5 from top end
 #50 segments, and EX is 40 segs from the top
 segments=51
-feedpint=11
+feedpoint=11
 
 #let's look to the points
 print (point_top)
 print (point_left)
 print (point_right)
 
+#starting simulation!!!
+from PyNEC import *
 
+nec = nec_context()
 
+geo = nec.get_geometry()
+
+#move radius next time to better place
+wire_radius=0.0015
+
+geo.wire(tag_id=1, nr_segments=segments, point_left[0], point_left[1], \
+    point_left[2], point_top[0], point_top[1], point_top[2], radius=wire_radius)
+geo.wire(tag_id=2, nr_segments=segments, point_left[0], point_left[1], \
+    point_left[2], point_right[0], point_right[1], point_right[2], radius=wire_radius)
+geo.wire(tag_id=1, nr_segments=segments, point_top[0], point_top[1], \
+    point_top[2], point_left[0], point_left[1], point_left[2], radius=wire_radius)
+nec.geometry_complite()
+
+nec.gn_card(1, 0, 0, 0, 0, 0, 0, 0)
+nec.ex_card(1, feedpoint, 1, 0, 0, 0, 0, 0, 0, 0, 0)
